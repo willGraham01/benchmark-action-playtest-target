@@ -48,6 +48,8 @@ def file_contents(
     file_contents = REPO.git.show(f"{branch_name}:{str(path_to_file)}")
 
     if write_to is not None:
+        if not os.path.exists(write_to.parent):
+            os.makedirs(write_to.parent)
         with open(write_to, "w") as f:
             f.write(file_contents)
     return file_contents
