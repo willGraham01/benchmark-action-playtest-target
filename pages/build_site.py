@@ -5,14 +5,15 @@ from pathlib import Path
 from shutil import rmtree
 from typing import Dict
 
+from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
 from git_tree import branch_contents, file_contents
 from git_tree import GIT_ROOT
 from render_html import render_html
 
-BUILD_DIR = (
-    Path(os.path.abspath(os.path.dirname(__file__))) / ".." / "build"
-).resolve()
-DESCRIPTION = ""
+DESCRIPTION = (
+    "Build the website deployment for the profiling results, "
+    "placing the resulting files in the build directory."
+)
 
 
 def create_dump_folder() -> Path:
@@ -26,6 +27,20 @@ def create_dump_folder() -> Path:
     else:
         os.makedirs(dump_folder)
     return dump_folder
+
+
+def clean_build_directory(build_dir: Path) -> None:
+    """
+    Remove the build directory and any files within in.
+    Only works when the build directory is within the repository root.
+    """
+    if GIT_ROOT not in build_dir.parents:
+        raise RuntimeError(
+            f"Cannot remove build directory {args.build_dir} as it is outside repository root {GIT_ROOT}, so could be harmful. Please manually clear the build directory."
+        )
+    else:
+        rmtree(args.build_dir)
+    return
 
 
 def build_html(
@@ -74,6 +89,28 @@ def build_html(
     return pyis_to_html
 
 
+def build_site(
+    source_branch: str,
+    build_dir: str | Path = BUILD_DIR,
+    flatten_paths: bool = True,
+    clean_build_dir: bool = False,
+):
+    """
+    Build the website deployment for the profiling results,
+    placing the output into the build directory provided.
+
+    :param source_branch: Repository branch on which source .pyisession files are located.
+    :param build_dir: Directory to write website files to.
+    :param flatten_paths: If True, directory structure of the source files will be ignored, and the build directory will be flat.
+    :param clean_build_dir: If True, the contents of the build directory will be removed before building again. Only works if the build directory lies within (a subdirectory of) the repository root.
+    """
+    if clean_build_dir:
+        clean_build_directory(build_dir)
+
+    d = build_html(source_branch, build_dir, flatten_paths)
+    return d
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
@@ -104,13 +141,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.build_dir = Path(os.path.abspath(args.build_dir))
 
-    if args.clean_build_dir:
-        if GIT_ROOT not in args.build_dir.parents:
-            raise RuntimeError(
-                f"Cannot remove build directory {args.build_dir} as it is outside repository root {GIT_ROOT}, so could be harmful. Please manually clear the build directory."
-            )
-        else:
-            rmtree(args.build_dir)
-
-    d = build_html(args.source, args.build_dir, args.flatten_paths)
-    print(d)
+    df = build_site(**vars(args))
+    print(df)

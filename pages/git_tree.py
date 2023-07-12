@@ -5,7 +5,8 @@ from typing import List
 
 import git
 
-GIT_ROOT = (Path(os.path.abspath(os.path.dirname(__file__))) / "..").resolve()
+from _paths import GIT_ROOT
+
 REPO = git.Repo(GIT_ROOT)
 
 
