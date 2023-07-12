@@ -1,0 +1,1 @@
+{"start_time": 1689152301.418160,"duration": 0.000768,"sample_count": 0,"program": "benchmark.py --pyis --stats --json --output_dir outputs/ --output_name workflow_dispatch_34_6f9096e53966b73497147464fe552b0e635a1007","cpu_time": 0.000765,"root_frame": null}
