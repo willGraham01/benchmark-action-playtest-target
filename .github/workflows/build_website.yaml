@@ -1,0 +1,40 @@
+name: Build and Deploy Website
+on:
+  push:
+    branches:
+      - main
+      - target
+  workflow_dispatch:
+    branches:
+      - main
+
+permissions:
+  deployments: write
+  contents: write
+
+jobs:
+  build_pages_site:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.6.1
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Python requirements 
+        run: pip install -r requirements.txt
+      
+      - name: Build website source
+        run: python pages/build_site.py -c -f target
+
+      - name: Deploy website
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
+          branch: gh-pages
+          clean: True
