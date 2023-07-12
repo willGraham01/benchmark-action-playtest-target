@@ -8,6 +8,8 @@ import pandas as pd
 
 from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
 from git_tree import GIT_ROOT
+from lookup_table import COLS_FOR_TABLE
+from lookup_table import write_lookup_table
 from render_html import build_html
 
 DESCRIPTION = (
@@ -67,9 +69,20 @@ def build_site(
 
     # Initialise DataFrame for creation of lookup table
     site_df = pd.DataFrame.from_dict(pyis_to_html)
+    for col in COLS_FOR_TABLE:
+        site_df[col] = None
 
-    print(site_df)
-    #
+    # Write markdown lookup table
+    profiling_results_index_page = build_dir / "profiling_index.md"
+    # Write header for profiling_index page, or fetch from another file
+
+    # Write lookup table
+    markdown_table = write_lookup_table(site_df, build_dir)
+    with open(profiling_results_index_page, "a") as f:
+        f.write(markdown_table)
+
+    # Write any footers that should be included
+
     return site_df
 
 
@@ -105,5 +118,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     args.build_dir = Path(os.path.abspath(args.build_dir))
 
-    df = build_site(**vars(args))
-    print(df)
+    build_site(**vars(args))

@@ -1,3 +1,3 @@
 GitPython
-pandas
+pandas[tabulate]
 pyinstrument
