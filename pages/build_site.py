@@ -3,7 +3,8 @@ from datetime import datetime
 import os
 from pathlib import Path
 from shutil import rmtree
-from typing import Dict
+
+import pandas as pd
 
 from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
 from git_tree import GIT_ROOT
@@ -62,14 +63,22 @@ def build_site(
 
     dump_folder = create_dump_folder()
 
-    d = build_html(source_branch, dump_folder, build_dir, flatten_paths)
-    return d
+    pyis_to_html = build_html(source_branch, dump_folder, build_dir, flatten_paths)
+
+    # Initialise DataFrame for creation of lookup table
+    site_df = pd.DataFrame.from_dict(pyis_to_html)
+
+    print(site_df)
+    #
+    return site_df
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
-        "source", type=str, help="Branch to pull pyis session files from."
+        "source_branch",
+        type=str,
+        help="Branch to pull pyis session files from.",
     )
     parser.add_argument(
         "build_dir",

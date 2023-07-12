@@ -8,7 +8,6 @@ from pyinstrument.renderers import HTMLRenderer
 
 from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
 from git_tree import branch_contents, file_contents
-from render_html import render_html
 
 
 def render_html(pyis_in: str | Path, html_out: str | Path):
@@ -47,7 +46,10 @@ def build_html(
     # Fetch all pyis session files on the source branch
     pyis_files = branch_contents(source_branch, "*.pyisession")
 
-    pyis_to_html = dict()
+    pyis_to_html = {
+        "pyis": [],
+        "html": [],
+    }
 
     # Render each file to HTML, and save to the output directory
     unique_ID = 0
@@ -68,7 +70,8 @@ def build_html(
         render_html(dump_file_loc, html_file_name)
 
         # Append this pairing to the dictionary
-        pyis_to_html[str(pyis_file)] = html_file_name
+        pyis_to_html["pyis"].append(pyis_file)
+        pyis_to_html["html"].append(html_file_name)
 
     # Purge temporary directory
     rmtree(dump_folder)
