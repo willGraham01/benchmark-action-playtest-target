@@ -6,9 +6,8 @@ from shutil import rmtree
 from typing import Dict
 
 from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
-from git_tree import branch_contents, file_contents
 from git_tree import GIT_ROOT
-from render_html import render_html
+from render_html import build_html
 
 DESCRIPTION = (
     "Build the website deployment for the profiling results, "
@@ -43,52 +42,6 @@ def clean_build_directory(build_dir: Path) -> None:
     return
 
 
-def build_html(
-    source_branch: str, build_dir: str | Path = BUILD_DIR, flatten_paths: bool = True
-) -> Dict[str, str]:
-    """
-    Using pyis session files stored on the target branch, build the corresponding
-    html pages and place them into the build directory.
-
-    If flatten_paths is true, directory structure will not be preserved.
-    Name conflicts will be prevented by appending incremental integers to file names.
-
-    Returns a dictionary of key, value pairs of the form:
-    pyis session, name of the html file produced.
-    """
-    # Fetch all pyis session files on the source branch
-    pyis_files = branch_contents(source_branch, "*.pyisession")
-
-    dump_folder = create_dump_folder()
-    pyis_to_html = dict()
-
-    # Render each file to HTML, and save to the output directory
-    unique_ID = 0
-    for pyis_file in [Path(p) for p in pyis_files]:
-        # Copy file contents to the dump folder
-        dump_file_loc = dump_folder / pyis_file
-        file_contents(source_branch, pyis_file, dump_file_loc)
-
-        # Create HTML file name
-        if flatten_paths:
-            html_file_name = build_dir / f"{pyis_file.stem}_{unique_ID}.html"
-            unique_ID += 1
-        else:
-            html_file_name = (
-                build_dir / f"{pyis_file.parent}" / f"{pyis_file.stem}.html"
-            )
-        # Render HTML from the pulled pyis session
-        render_html(dump_file_loc, html_file_name)
-
-        # Append this pairing to the dictionary
-        pyis_to_html[str(pyis_file)] = html_file_name
-
-    # Purge temporary directory
-    rmtree(dump_folder)
-
-    return pyis_to_html
-
-
 def build_site(
     source_branch: str,
     build_dir: str | Path = BUILD_DIR,
@@ -107,7 +60,9 @@ def build_site(
     if clean_build_dir:
         clean_build_directory(build_dir)
 
-    d = build_html(source_branch, build_dir, flatten_paths)
+    dump_folder = create_dump_folder()
+
+    d = build_html(source_branch, dump_folder, build_dir, flatten_paths)
     return d
 
 
