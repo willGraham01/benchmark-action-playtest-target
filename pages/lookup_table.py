@@ -67,4 +67,4 @@ def write_lookup_table(site_df: pd.DataFrame, build_dir: Path) -> str:
     site_df["Triggered by"] = site_df["pyis"].apply(git_event)
 
     # Write markdown
-    return site_df[COLS_FOR_TABLE].to_markdown(tablefmt="grid")
+    return site_df[COLS_FOR_TABLE].to_markdown()

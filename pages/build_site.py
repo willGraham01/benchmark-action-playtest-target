@@ -81,14 +81,16 @@ def build_site(
     # Fetch templated text from source
     with open(PROFILING_LOOKUP_TEMPLATE, "r") as f:
         lookup_page_contents = f.read()
+    template_contents = lookup_page_contents.split(MARKDOWN_REPLACEMENT_STRING)
     # Write lookup table into placeholder location
     markdown_table = write_lookup_table(site_df, build_dir)
-    lookup_page_contents = lookup_page_contents.replace(
-        MARKDOWN_REPLACEMENT_STRING, markdown_table
-    )
     # Write processed lookup page to the build directory
     with open(profiling_index_page, "w") as f:
-        f.write(lookup_page_contents)
+        f.write(template_contents[0])
+    with open(profiling_index_page, "a") as f:
+        f.write(markdown_table)
+    with open(profiling_index_page, "a") as f:
+        f.write(template_contents[1])
 
     # Move index source file into the build directory
     shutil.copy(INDEX_PAGE, build_dir / "index.md")
