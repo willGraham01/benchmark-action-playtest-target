@@ -2,11 +2,12 @@ import argparse
 from datetime import datetime
 import os
 from pathlib import Path
-from shutil import rmtree
+import shutil
 
 import pandas as pd
 
 from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
+from _paths import INDEX_PAGE, PROFILING_LOOKUP_TEMPLATE
 from git_tree import GIT_ROOT
 from lookup_table import COLS_FOR_TABLE
 from lookup_table import write_lookup_table
@@ -16,6 +17,7 @@ DESCRIPTION = (
     "Build the website deployment for the profiling results, "
     "placing the resulting files in the build directory."
 )
+MARKDOWN_REPLACEMENT_STRING = "<<<MATCH_PATTERN_FOR_MARKDOWN_TABLE_INSERT>>>"
 
 
 def create_dump_folder() -> Path:
@@ -40,8 +42,8 @@ def clean_build_directory(build_dir: Path) -> None:
         raise RuntimeError(
             f"Cannot remove build directory {args.build_dir} as it is outside repository root {GIT_ROOT}, so could be harmful. Please manually clear the build directory."
         )
-    else:
-        rmtree(args.build_dir)
+    elif os.path.exists(build_dir):
+        shutil.rmtree(build_dir)
     return
 
 
@@ -62,6 +64,8 @@ def build_site(
     """
     if clean_build_dir:
         clean_build_directory(build_dir)
+    if not os.path.exists(build_dir):
+        os.makedirs(build_dir)
 
     dump_folder = create_dump_folder()
 
@@ -72,17 +76,22 @@ def build_site(
     for col in COLS_FOR_TABLE:
         site_df[col] = None
 
-    # Write markdown lookup table
-    profiling_results_index_page = build_dir / "profiling_index.md"
-    # Write header for profiling_index page, or fetch from another file
-
-    # Write lookup table
+    # Write profiling results lookup page
+    profiling_index_page = build_dir / "profiling_index.md"
+    # Fetch templated text from source
+    with open(PROFILING_LOOKUP_TEMPLATE, "r") as f:
+        lookup_page_contents = f.read()
+    # Write lookup table into placeholder location
     markdown_table = write_lookup_table(site_df, build_dir)
-    with open(profiling_results_index_page, "a") as f:
-        f.write(markdown_table)
+    lookup_page_contents = lookup_page_contents.replace(
+        MARKDOWN_REPLACEMENT_STRING, markdown_table
+    )
+    # Write processed lookup page to the build directory
+    with open(profiling_index_page, "w") as f:
+        f.write(lookup_page_contents)
 
-    # Write any footers that should be included
-
+    # Move index source file into the build directory
+    shutil.copy(INDEX_PAGE, build_dir / "index.md")
     return site_df
 
 

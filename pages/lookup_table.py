@@ -6,9 +6,9 @@ from git_tree import REPO
 import pandas as pd
 
 COLS_FOR_TABLE = [
-    "link",
-    "commit",
-    "event",
+    "Link",
+    "Commit",
+    "Triggered by",
     "SHA",
 ]
 
@@ -56,15 +56,15 @@ def git_event(fname: Path) -> str:
 def write_lookup_table(site_df: pd.DataFrame, build_dir: Path) -> str:
     """"""
     # Create the clickable link in the link column
-    site_df["link"] = site_df["html"].apply(
-        write_link, relative_to=build_dir, link_text="LINK"
+    site_df["Link"] = site_df["html"].apply(
+        write_link, relative_to=build_dir, link_text="Profiling results"
     )
 
     # Determine SHA and commit hashes
-    site_df[["SHA", "commit"]] = site_df["pyis"].apply(git_SHA).apply(pd.Series)
+    site_df[["SHA", "Commit"]] = site_df["pyis"].apply(git_SHA).apply(pd.Series)
 
     # Workflow event trigger
-    site_df["event"] = site_df["pyis"].apply(git_event)
+    site_df["Triggered by"] = site_df["pyis"].apply(git_event)
 
     # Write markdown
     return site_df[COLS_FOR_TABLE].to_markdown(tablefmt="grid")
