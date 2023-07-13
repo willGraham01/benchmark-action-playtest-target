@@ -44,7 +44,7 @@ jobs:
         run: pip install -r requirements.txt
       
       - name: Build website source
-        run: python pages/build_site.py -c -f target
+        run: python website_build/build_site.py -c -f target
 
       - name: Deploy website
         uses: JamesIves/github-pages-deploy-action@v4
