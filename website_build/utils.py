@@ -33,6 +33,22 @@ def clean_build_directory(build_dir: Path) -> None:
     return
 
 
+def write_md_image(
+    link: Path, relative_to: Path = None, alt_text: str = "IMAGE"
+) -> str:
+    """
+    Create a markdown image embedding of the form
+    ![alt_text](image_source)
+
+    where image_source points ot the file at link relative to the relative_to path.
+    """
+    if relative_to is not None:
+        image_source = os.path.relpath(link, relative_to)
+    else:
+        image_source = str(link)
+    return f"![{alt_text}]({image_source})"
+
+
 def write_md_link(link: Path, relative_to: Path = None, link_text: str = "LINK") -> str:
     """
     Create a markdown hyperlink of the form

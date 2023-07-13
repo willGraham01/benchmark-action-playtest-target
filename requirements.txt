@@ -1,4 +1,5 @@
 GitPython
+matplotlib
 pandas
 pyinstrument
 tabulate
