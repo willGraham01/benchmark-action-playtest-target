@@ -1,30 +1,10 @@
-import os
 from pathlib import Path
-from shutil import rmtree
+import shutil
 from typing import Dict
-
-from pyinstrument.session import Session
-from pyinstrument.renderers import HTMLRenderer
 
 from _paths import DEFAULT_BUILD_DIR as BUILD_DIR
 from git_tree import branch_contents, file_contents
-
-
-def render_html(pyis_in: str | Path, html_out: str | Path):
-    """
-    Renders a pyis session file as HTML for visual output.
-    """
-    pyi_session = Session.load(pyis_in)
-    if not os.path.exists(html_out.parent):
-        os.makedirs(html_out.parent)
-
-    renderer = HTMLRenderer(show_all=False, timeline=False)
-
-    print(f"Writing {html_out}", end="...", flush=True)
-    with open(html_out, "w") as f:
-        f.write(renderer.render(pyi_session))
-    print("done")
-    return
+from render_pyis import render_html
 
 
 def build_html(
@@ -74,6 +54,6 @@ def build_html(
         pyis_to_html["html"].append(html_file_name)
 
     # Purge temporary directory
-    rmtree(dump_folder)
+    shutil.rmtree(dump_folder)
 
     return pyis_to_html
