@@ -59,9 +59,12 @@ class WebsiteBuilder:
         :param build_dir: The directory to write the website files to.
         :param flatten_paths: If True, the directory structure of the source branch will be ignored, and the build directory will be flat.
         """
+        self.source_branch = source_branch
+
+        # Initialise dataframe by pulling pyis files from source branch
         pyis_files = branch_contents(source_branch, "*.pyisession")
 
-        self.df = pd.DataFrame({"pyis", pyis_files})
+        self.df = pd.DataFrame({"pyis": pyis_files})
         # Add extra columns to the dataframe, to be populated later
         for col in TABLE_EXTRA_COLUMNS:
             self.df[col] = None

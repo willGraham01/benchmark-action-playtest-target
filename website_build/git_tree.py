@@ -10,7 +10,7 @@ from _paths import GIT_ROOT
 REPO = git.Repo(GIT_ROOT)
 
 
-def list_paths(root_tree, path=Path(".")) -> List[str]:
+def list_paths(root_tree, path=Path(".")) -> List[Path]:
     """
     Return a generator that iterates over all files (with absolute paths)
     recursively, starting in the directory provided on the given tree.
@@ -21,7 +21,7 @@ def list_paths(root_tree, path=Path(".")) -> List[str]:
         yield from list_paths(tree, path / tree.name)
 
 
-def branch_contents(branch_name: str, match_pattern: str = None) -> List[str]:
+def branch_contents(branch_name: str, match_pattern: str = None) -> List[Path]:
     """
     List all contents of a given branch in the repository, which match
     the UNIX pattern provided.
@@ -35,6 +35,8 @@ def branch_contents(branch_name: str, match_pattern: str = None) -> List[str]:
 
     if match_pattern is not None:
         files = fnmatch.filter(files, match_pattern)
+
+    files = [Path(file) for file in files]
     return files
 
 
