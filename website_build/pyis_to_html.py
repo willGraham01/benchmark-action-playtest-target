@@ -5,7 +5,7 @@ from pyinstrument.session import Session
 from pyinstrument.renderers import HTMLRenderer
 
 
-def render_html(pyis_in: str | Path, html_out: str | Path):
+def pyis_to_html(pyis_in: str | Path, html_out: str | Path):
     """
     Renders a pyis session file as HTML for visual output.
     """

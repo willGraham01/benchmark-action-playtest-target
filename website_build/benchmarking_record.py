@@ -1,5 +1,3 @@
-import os
-from pathlib import Path
 from typing import Dict
 
 BENCHMARK_NAMES = {}
