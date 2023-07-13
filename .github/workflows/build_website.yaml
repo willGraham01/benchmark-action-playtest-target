@@ -7,10 +7,17 @@ on:
   workflow_dispatch:
     branches:
       - main
+  repository_dispatch:
+    types: [new-profiling-results]
 
 permissions:
   deployments: write
   contents: write
+
+concurrency:
+  # Skip build if a new build is triggered by new updates
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build_pages_site:
