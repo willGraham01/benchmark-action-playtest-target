@@ -78,13 +78,13 @@ jobs:
           path: build/*
           retention-days: 1
 
-  # Only deploy the website on pushes to main
+  # Only deploy the website when the workflow was triggered on main
   # This allows the previous two jobs to be used as checks against PRs
   deploy-website:
     name: Deploy pages site
     runs-on: ubuntu-latest
     needs: [docs-build, profiling-build]
-    if: (github.event_name == 'push' || github.event_name == 'repository_dispatch') && github.ref_name == 'main'
+    if: github.ref_name == 'main' || github.event_name == 'repository_dispatch'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
