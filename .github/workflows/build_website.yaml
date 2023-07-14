@@ -43,7 +43,7 @@ jobs:
     - name: Upload the generated HTML
       uses: actions/upload-artifact@v3
       with:
-        name: dev_docs_html
+        name: dev_docs_html_${{ github.sha }}
         path: html/*
         retention-days: 1
 
@@ -76,7 +76,7 @@ jobs:
       - name: Upload the generated HTML
         uses: actions/upload-artifact@v3
         with:
-          name: profiling_results_html
+          name: profiling_results_html_${{ github.sha }}
           path: build/*
           retention-days: 1
 
@@ -94,13 +94,13 @@ jobs:
       - name: Fetch profiling results html
         uses: actions/download-artifact@v3
         with:
-          name: profiling_results_html
+          name: profiling_results_html_${{ github.sha }}
           path: build/
 
       - name: Fetch developer docs html
         uses: actions/download-artifact@v3
         with:
-          name: dev_docs_html
+          name: dev_docs_html_${{ github.sha }}
           path: dev
 
       - name: Move doxygen files into build folder
