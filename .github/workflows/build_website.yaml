@@ -29,6 +29,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Note that we only want this workflow to run when changes are _accepted_ into main, 
+      # or the source branch is updated.
+      # As such, this is why we have an explicit git checkout of only the source and main branches,
+      # the workflow should not be using experimental code and deploying pull request content.
       - name: Fetch source branch contents
         run: |
           git checkout target
