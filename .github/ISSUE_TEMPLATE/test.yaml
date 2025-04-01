@@ -17,7 +17,7 @@ body:
       description: |
         This is the workshop checklist that will be automatically added,
         though you can make manual edits now, if you'd like.
-      placeholder: |
+      value: |
         <!-- ⚠ this is a section with links - Do not delete ⚠ TODO: move these somewhere else and tidy up--> 
         [wiki]: https://github.com/UCL-RITS/software-carpentry/wiki/
         [wiki-howto]: https://github.com/UCL-RITS/software-carpentry/wiki/SoftwareCarpentryHowTo
