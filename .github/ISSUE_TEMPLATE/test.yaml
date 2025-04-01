@@ -6,12 +6,14 @@ body:
   - type: checkboxes
     id: title-check
     attributes:
+      label: Check the title of this issue.
       options:
         - label: I formatted the title of this issue before pressing create!
           required: true
   - type: textarea
     id: body-fill
     attributes:
+      label: Workshop Checklist.
       description: |
         This is the workshop checklist that will be automatically added,
         though you can make manual edits now, if you'd like.
