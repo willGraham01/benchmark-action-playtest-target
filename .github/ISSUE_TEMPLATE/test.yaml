@@ -3,59 +3,158 @@ description: Create a new issue to track a workshop.
 title: "[WORKSHOP]: XX-ZZ MONTH YEAR (FORMAT) [In-person / Online]"
 labels: ["workshop"]
 body:
-  - type: markdown
+  - type: checkboxes
+    id: title-check
     attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
+      options:
+        - label: I formatted the title of this issue before pressing create!
+          required: true
+  - type: textarea
+    id: body-fill
     attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
+      description: |
+        This is the workshop checklist that will be automatically added,
+        though you can make manual edits now, if you'd like.
+      placeholder: |
+        <!-- ⚠ this is a section with links - Do not delete ⚠ TODO: move these somewhere else and tidy up--> 
+        [wiki]: https://github.com/UCL-RITS/software-carpentry/wiki/
+        [wiki-howto]: https://github.com/UCL-RITS/software-carpentry/wiki/SoftwareCarpentryHowTo
+        [wiki-howto-online]: https://github.com/UCL-RITS/software-carpentry/wiki/SoftwareCarpentryHowTo#online-workshops
+        [wiki-feedback]: https://github.com/UCL-RITS/software-carpentry/wiki/Feedback
+        [wiki-rooms]: https://github.com/UCL-RITS/software-carpentry/wiki/UCLRooms
+        [wiki-modify-template]: https://github.com/UCL-RITS/software-carpentry/wiki/Preparing-workshop-website#extra-website-modifications
+        [wiki-volunteers]: https://github.com/UCL-RITS/software-carpentry/wiki/Recruiting
+        [wiki-no-shows]: https://github.com/UCL-RITS/software-carpentry/wiki/Registration-setup#rules-for-no-shows
+        [wiki-booking]: https://github.com/UCL-RITS/software-carpentry/wiki/Registration-setup
+        [wiki-advertising]: https://github.com/UCL-RITS/software-carpentry/wiki/Pre-workshop-information#advertising-the-workshop
+        [wiki-eoi]: https://github.com/UCL-RITS/software-carpentry/wiki/Pre-workshop-information#expression-of-interest-form
+        [wiki-socrative]: https://github.com/UCL-RITS/software-carpentry/wiki/SocrativeHowTo
+        [wiki-video]: https://github.com/UCL-RITS/software-carpentry/wiki/Teaching-Tools#video-conference
+        [wiki-msbooking]: https://github.com/UCL-RITS/software-carpentry/wiki/MS-booking
+        [wiki-pre-instructor]: https://github.com/UCL-RITS/software-carpentry/wiki/Meet-instructors-and-helpers
+        [wiki-attendees]: https://github.com/UCL-RITS/software-carpentry/wiki/Feedback#adding-feedback
+        [wiki-instructors]: https://github.com/UCL-RITS/software-carpentry/wiki/Contacts
+        [wiki-maillist]: https://github.com/UCL-RITS/software-carpentry/wiki/Recruiting#mailing-lists
+        [wiki-post-email]: https://github.com/UCL-RITS/software-carpentry/wiki/Post-workshop-information#post-workshop-email
+        [wiki-resources]: https://github.com/UCL-RITS/software-carpentry/wiki/Further-teaching-resources
+        [wiki-contacts]: https://github.com/UCL-RITS/software-carpentry/wiki/Contacts
+        [wiki-calendar]: https://github.com/UCL-RITS/software-carpentry/wiki/Calendar
+        [wiki-pre-ws]: https://github.com/UCL-RITS/software-carpentry/wiki/Pre-workshop-checklist
+        [wiki-dur-ws]: https://github.com/UCL-RITS/software-carpentry/wiki/During-workshop-checklist
+        [wiki-pst-ws]: https://github.com/UCL-RITS/software-carpentry/wiki/Post-workshop-checklist
+
+        [sc-ucl]: https://github.com/UCL-RITS/software-carpentry
+
+        [arc-feedback]: https://liveuclac.sharepoint.com/sites/RITSstaff/_layouts/15/Doc.aspx?sourcedoc=%7B5ea8e0e5-e14d-46cb-a8f2-a04c40bad15a%7D&action=editnew&cid=545365aa-b889-40e5-aa05-14c1ca3469c5
+        [arc-training]: http://www.ucl.ac.uk/isd/services/research-it/training
+        [arc-eoi]: https://forms.office.com/Pages/DesignPage.aspx?fragment=FormId%3D_oivH5ipW0yTySEKEdmlwuoppXwlwhdDp99gnu55-1xUN05KUjNZUzhaWDFOU1BaMUpGOThTMFQ4Ui4u%26Token%3Da865dbbd60a84b06aa02a26126dc5ea5
+
+        [ucl-a11y-zoom]: https://www.ucl.ac.uk/isd/how-to/enabling-automatic-transcription-zoom-meeting
+
+        [carp-template]: https://github.com/carpentries/workshop-template/blob/gh-pages/README.md
+        [carp-example]: https://rits.github-pages.ucl.ac.uk/2021-03-09_UCL_software_carpentry/
+        [carp-workshop-request]: https://amy.carpentries.org/forms/workshop/
+        [carp-discussions]: https://pad.carpentries.org/community-discussions
+        <!-- ⚠ END of section with links - Do not delete ⚠ --> 
+
+        Info we've recorded about how to organise it can be found [in the HowTo in the wiki][wiki-howto]. With some extra details about 📡 workshops in the [online workshop HowTo][wiki-howto-online].
+
+        Add your **Answers/notes in bold**
+
+        <!-- Delete/amend as necessary for the context of your workshop. 
+            🔌 In person
+            📡 online
+        -->
+
+        ### Getting ready
+
+        - [ ] Decide which session we are teaching: 
+        - [ ] Check [feedback from previous workshops][wiki-feedback] to see what we need to improve.
+        - [ ] 🔌 Book rooms - check [information on our wiki][wiki-howto], and [our comments about them][wiki-rooms]
+        - [ ] 📡 Select [online video tool to use][wiki-video].
+        - [ ] [Configure SWC website][carp-template] with the right format: `YYYY-MM-DD-UCL_software_carpentry`. [Example of a generated page][carp-example]: **LINK**
+          - [ ] Add [lesson setups][wiki-modify-template] (download files, etc.) to the website as one of the setup steps.
+          - [ ] Configure the instructions website as appropriate for the workshop.
+        - [ ] Set up other pages ([SC @ UCL][sc-ucl], i.e., this repo,) with the right dates and make sure that the announcements (mailinglists, slack, ...) points to that information.
+        - [ ] Send [mails asking for volunteers][wiki-volunteers] to teach and help (and add them in the table below).
+        - [ ] Send mail to Caroline Norris (DigiEd) to get more help if needed.
+        - [ ] People `<-->` Sessions. Try to get backups for your sessions, otherwise you would be the back up for them. Add their names in the table below (including emails as `[name](mailto:email@mail.com)`) and in the website. Aim to have at least one helper per major Operating System familiar with the installation (and connection) steps.
+        - [ ] Register the [workshop as self-organised via "requesting a self-organised workshop"][carp-workshop-request]. Add groups email to receive the information too. This will add the workshop at the Carpentries website and generate the links of the pre- and post-workshop surveys. 
+            - [ ] In case of no reply, ask to [carpentries team in the UK](mailto:admin-uk@carpentries.org).
+            - [ ] Alternatively, we can prepare our own surveys following the instructions at [our own spreadsheet][arc-feedback].
+        - [ ] Add links to the pre- and post-workshop survey results below.
+        - [ ] 🔌 Catering? Can we spend like £10 in biscuits, water and juice for the students?
+
+        ### Announcing
+
+        - [ ] Create/adapt rule [for no-shows][wiki-no-shows], and add information in the corresponding event booking pages.
+        - [ ] Liaise to update the information in [ARC's training page][arc-training] and other sites. Contact the [right person from our contacts list][wiki-contacts].
+        - [ ] [Set a booking page][wiki-booking] and make sure that provides the following information:
+          - [ ] links to the workshop website.
+          - [ ] "Opt-in" to mailing lists option.
+          - [ ] information about installation requirements and accounts creations (e.g., github).
+          - [ ] Request to fill the pre-workshop survey (its results can be used to inform the workshop syllabus).
+          - [ ] 📡 Include the link to the online tool to be used (and point to any extra installation notes required).
+          - [ ] 📡 Suggestions about screen layouts.
+          - [ ] Drop-in sessions details (see below)
+          - [ ] Add a reminder/setup email to be sent 24 h before start of workshop.
+            The students list may be obtained from Eventbrite or by DigiEd's [Training Administration](mailto:isd-digiskills@ucl.ac.uk).
+        - [ ] Email specific learners interested (to give them a bit of advantage before is fully booked out):
+          - [ ] Some of them emailed us via RemedyForce, others we know from projects or networking.
+          - [ ] Some may be listed in the issue for the last workshop.
+          - [ ] Other students might have [registered via the expression of interest form][wiki-eoi].
+        - [ ] [Advertise the workshop][wiki-advertising]
+          
+        ### [Pre-Workshop][wiki-pre-ws]
+
+        - [ ] Inform Instructors about [socrative and how to update/modify the questions][wiki-socrative].
+        - [ ] Organise drop-in session for setup problems. 
+            - [ ] 🔌 Book a room for in-person
+            - [ ] 📡 Set a [MS booking page][wiki-msbooking] or time frame with a tool with [breakout-rooms][wiki-video]
+        - [ ] Meet with instructors and helpers. [Discuss with them the dynamics of the workshop and the CoC][wiki-pre-instructors].
+            - [ ] 🔌 Test the room (projector, sites, computer, screens, plugs, ...) with the instructors.
+            - [ ] 📡 Test the video conference tool (screen sharing, audio, Socrative, other tools, ...) with the instructors.
+            - [ ] 📡 Discuss/plan the use of breakout rooms (pre-assign?, details of how long they need breakout rooms for and approximate times).
+            - [ ] 📡 Discuss/plan dynamics between learners and helpers and how they'll be assigned and the process about how to ask/answer questions (chat/collaborative doc/)
+            - [ ] Share any insights from the pre-workshop survey
+            - [ ] Allocate time in the session for the feedback and post-course survey to be completed.
+        - [ ] 📡 assign a DJ for the sessions.
+        - [ ] Check if there's any accessibility requirement from any of the participants.
+        - [ ] Send calendar invites with the appropriate videoconference link/room location using [`rits-teaching` calendar][wiki-calendar] to
+          - [ ] instructors and helpers 
+          - [ ] learners
+
+        ### [Workshop!][wiki-dur-ws]
+
+        - [ ] 📡 Accessibility: [enable Zoom transcriptions/accessibility][ucl-a11y-zoom] (or as appropriate for other platform such as Teams, Blackboard Collaborate, etc.)
+        - [ ] Introductions:
+            - about the carpentries and the CoC
+            - the instructors
+            - the tools (if 📡 link the info from the collaborative document)
+        - [ ] Collect feedback after each session
+        - [ ] Organise/Run 10' meetings with instructors that are continuing on previous session. A quick handover to discuss how much was covered and check the feedback received.
+        - [ ] Ask to fill the post-workshop survey
+        - [ ] Request feedback from helpers on the session for instructors/organisers (to help us all improve!)
+          
+        ### [Post-Workshop][wiki-pst-ws]
+
+        - [ ] Update on the [wiki][wiki]
+          - [ ] anything that needs updating from [the HowTo][wiki-howto];
+          - [ ] add the [feedback][wiki-feedback];
+          - [ ] the [headcounts for each day][wiki-attendees];
+          - [ ] any comments about the (virtual?) [room][wiki-rooms] and 
+          - [ ] the [list of instructors and helpers][wiki-instructors].
+        - [ ] Send to the Carpentries ([admin-uk](mailto:admin-uk@carpentries.org) (cc-ing [Aleksandra Nenadic](mailto:a.nenadic@manchester.ac.uk) and [Giacomo Peru](mailto:g.peru@epcc.ed.ac.uk)):
+          - [ ] Final headcount,
+          - [ ] Names of organisers, instructors and helpers to be updated in AMY.
+        - [ ] Add students, instructors and helpers **who have given consent** to the [appropriate mailing lists][wiki-maillist].
+        - [ ] Save final copy of the etherpad as html in the workshop repository and update links to the page.
+        - [ ] [Send final mail to attendees][wiki-post-email] with links to
+          - the material used, [further resources][wiki-resources], 
+          - information about how to add this workshop [to their training records](http://courses.grad.ucl.ac.uk/faq.pht), 
+          - the post-workshop survey, and 
+          - how they can join the [carpentries newsletter](https://carpentries.org/newsletter/) where they can opt-in to future surveys to provide information about the long-term impacts of the workshop on their development.
+        - [ ] Attend the next [Carpentries' Instructor discussion session][carp-discussions] with a list of problems that may have happened during the workshop.
+        - [ ] Process and review the final results from the surveys as appropriate.
     validations:
       required: false
-  - type: textarea
-    id: what-happened
-    attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
-    validations:
-      required: true
-  - type: dropdown
-    id: version
-    attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-      default: 0
-    validations:
-      required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
